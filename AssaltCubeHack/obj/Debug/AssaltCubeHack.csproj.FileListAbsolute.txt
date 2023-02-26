@@ -1,0 +1,10 @@
+C:\Users\chltk\source\repos\AssaltCubeHack\AssaltCubeHack\bin\Debug\AssaltCubeHack.exe.config
+C:\Users\chltk\source\repos\AssaltCubeHack\AssaltCubeHack\bin\Debug\AssaltCubeHack.exe
+C:\Users\chltk\source\repos\AssaltCubeHack\AssaltCubeHack\bin\Debug\AssaltCubeHack.pdb
+C:\Users\chltk\source\repos\AssaltCubeHack\AssaltCubeHack\obj\Debug\AssaltCubeHack.csproj.AssemblyReference.cache
+C:\Users\chltk\source\repos\AssaltCubeHack\AssaltCubeHack\obj\Debug\AssaltCubeHack.Properties.Resources.resources
+C:\Users\chltk\source\repos\AssaltCubeHack\AssaltCubeHack\obj\Debug\AssaltCubeHack.csproj.GenerateResource.cache
+C:\Users\chltk\source\repos\AssaltCubeHack\AssaltCubeHack\obj\Debug\AssaltCubeHack.csproj.CoreCompileInputs.cache
+C:\Users\chltk\source\repos\AssaltCubeHack\AssaltCubeHack\obj\Debug\AssaltCubeHack.exe
+C:\Users\chltk\source\repos\AssaltCubeHack\AssaltCubeHack\obj\Debug\AssaltCubeHack.pdb
+C:\Users\chltk\source\repos\AssaltCubeHack\AssaltCubeHack\obj\Debug\AssaltCubeHack.MainForm.resources
