@@ -79,10 +79,12 @@ namespace ProcessMemoryReaderLib
         {
             int iRetValue;
             iRetValue = ProcessMemoryReaderApi.CloseHandle(m_hProcess);
+
+            m_hProcess = IntPtr.Zero;
+            ReadProcess = null;
+
             if (iRetValue == 0)
                 throw new Exception("CloseHandle failed");
-            else
-                m_hProcess = IntPtr.Zero;
         }
 
 

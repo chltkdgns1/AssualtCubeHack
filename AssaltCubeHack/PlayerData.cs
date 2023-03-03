@@ -3,7 +3,7 @@ using ProcessMemoryReaderLib;
 
 namespace AssaltCubeHack
 {
-    class PlayerMemoryData
+    public class PlayerMemoryData
     {
         public int baseAddr = -1; // = 0x0017B0B8;
         public int healthOffset = 0xEC;
@@ -23,7 +23,7 @@ namespace AssaltCubeHack
 
     public class PlayerData
     {
-        PlayerMemoryData playerMemData = null;
+        private PlayerMemoryData playerMemData = null;
 
         public int health { get; set; }
         public int bullet { get; set; }
@@ -34,10 +34,17 @@ namespace AssaltCubeHack
         public float xyAng { get; set; }
         public float zAng { get; set; }
 
-        public PlayerData(ProcessMemoryReader pMem, int offset)
+        ProcessMemoryReader pMem = null;
+
+        public PlayerMemoryData PlayerMemData
         {
-            int basePtr = pMem.ReadProcess.MainModule.BaseAddress.ToInt32() + offset;          
-            int baseAddr = pMem.ReadInt(basePtr);
+            get { return playerMemData; }
+        }
+
+        public PlayerData(ProcessMemoryReader pMem, int baseAddr)
+        {
+
+            this.pMem = pMem;
             playerMemData = new PlayerMemoryData(baseAddr);
 
             health = 0;
@@ -48,9 +55,11 @@ namespace AssaltCubeHack
             zpos = 0f;
             xyAng = 0f;
             zAng = 0f;
+
+            SetPlayerData();
         }
 
-        public void SetPlayerData(ProcessMemoryReader pMem)
+        public void SetPlayerData()
         {
             int baseAddr = playerMemData.baseAddr;
             health = pMem.ReadInt(baseAddr + playerMemData.healthOffset);
@@ -63,19 +72,25 @@ namespace AssaltCubeHack
             zAng = pMem.ReadFloat(baseAddr + playerMemData.zAng);
         }
 
-        public void HackHealth(ProcessMemoryReader pMem)
+        public void HackHealth()
         {
             pMem.WriteInt(playerMemData.baseAddr + playerMemData.healthOffset, 10000);
         }
 
-        public void HackBullet(ProcessMemoryReader pMem)
+        public void HackBullet()
         {
             pMem.WriteInt(playerMemData.baseAddr + playerMemData.bulletOffset, 10000);
         }
 
-        public void HackAmmor(ProcessMemoryReader pMem)
+        public void HackAmmor()
         {
             pMem.WriteInt(playerMemData.baseAddr + playerMemData.ammorOffset, 10000);
+        }
+
+        public void SetAim(float xyAng, float zAng)
+        {
+            pMem.WriteFloat(playerMemData.baseAddr + playerMemData.xyAng, xyAng);
+            pMem.WriteFloat(playerMemData.baseAddr + playerMemData.zAng, zAng);
         }
     }
 }

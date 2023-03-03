@@ -14,7 +14,7 @@ namespace AssaltCubeHack
         Process[] processList = null;
         ProcessMemoryReader memoryReader = new ProcessMemoryReader();
 
-        PlayerData playerData = null;
+        PlayerController playerController = new PlayerController();
 
         public bool IsGetAttach
         {
@@ -24,9 +24,9 @@ namespace AssaltCubeHack
             }
         }
 
-        public PlayerData PlayerData
+        public PlayerData MyPlayerData
         {
-            get { return playerData; }
+            get { return playerController.MyPlayerData; }
         }
 
         public Process[] ProcessList
@@ -53,7 +53,7 @@ namespace AssaltCubeHack
 
         protected override void Init()
         {
-
+            playerController.init();
         }
 
         public void SetProcess(Process[] process)
@@ -63,6 +63,8 @@ namespace AssaltCubeHack
 
         public void CloseAttach()
         {
+            Init();
+
             if (memoryReader.IsGetProcess)
             {
                 try
@@ -123,18 +125,15 @@ namespace AssaltCubeHack
                 return;
             }
 
-            playerData = new PlayerData(memoryReader, 0x0017B0B8);
-            UpDatePlayerData();
+            playerController.GetMyData(memoryReader);
+            playerController.GetRoomData(memoryReader);
+            UpDate();
         }
 
-        public void UpDatePlayerData()
+        public void UpDate()
         {
-            if(playerData == null)
-            {
-                return;
-            }
-
-            playerData.SetPlayerData(memoryReader);
+            playerController.SetMyData();
+            //playerController.SetRoomData();
         }
 
         public void HackHealth()
@@ -144,7 +143,7 @@ namespace AssaltCubeHack
                 return;
             }
 
-            PlayerData.HackHealth(memoryReader);
+            playerController.HackMyHealth();
         }
 
         public void HackBullet()
@@ -154,7 +153,7 @@ namespace AssaltCubeHack
                 return;
             }
 
-            PlayerData.HackBullet(memoryReader);
+            playerController.HackMyBullet();
         }
 
         public void HackAmmor()
@@ -164,7 +163,17 @@ namespace AssaltCubeHack
                 return;
             }
 
-            PlayerData.HackAmmor(memoryReader);
+            playerController.HackMyAmmor();
+        }
+
+        public void HackAim()
+        {
+            playerController.HackAim();
+        }
+
+        public void GetEnemyState()
+        {
+            playerController.GetEnemyState(memoryReader);
         }
     }
 }

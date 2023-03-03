@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ProcessMemoryReaderLib;
+using static ProcessMemoryReaderLib.ProcessMemoryReader;
 
 namespace AssaltCubeHack
 {
@@ -17,6 +18,9 @@ namespace AssaltCubeHack
         bool isCheckHealthHack = false;
         bool isCheckBulltetHack = false;
         bool isCheckAmmorHack = false;
+
+        bool isAimHack = false;
+        bool isEsp = false;
 
         public MainForm()
         {
@@ -121,14 +125,14 @@ namespace AssaltCubeHack
                 return;
             }
 
-            if(ProcessManager.Instance.PlayerData == null)
+            if(ProcessManager.Instance.MyPlayerData == null)
             {
                 return;
             }
 
-            ProcessManager.Instance.UpDatePlayerData();
+            ProcessManager.Instance.UpDate();
 
-            var pData = ProcessManager.Instance.PlayerData;
+            var pData = ProcessManager.Instance.MyPlayerData;
 
             if(pData == null)
             {
@@ -155,6 +159,20 @@ namespace AssaltCubeHack
             {
                 ProcessManager.Instance.HackAmmor();
             }
+
+            // 키가 눌렸을 때
+            RMouseBtnDown(); 
+        }
+
+        void RMouseBtnDown()
+        {
+            int hotKey = ProcessMemoryReaderApi.GetKeyState((int)VirtualKeyStates.VK_RBUTTON);
+            if ((hotKey & 0x8000) == 0)
+            {
+                return;
+            }
+            ProcessManager.Instance.GetEnemyState();
+            ProcessManager.Instance.HackAim();
         }
 
         private void AmmorHackCheck_CheckedChanged(object sender, EventArgs e)
@@ -170,6 +188,16 @@ namespace AssaltCubeHack
         private void BulletHackCheck_CheckedChanged(object sender, EventArgs e)
         {
             isCheckBulltetHack = BulletHackCheck.Checked;
+        }
+
+        private void AimHackCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            isAimHack = AimHackCheck.Checked;
+        }
+
+        private void ESPCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            isEsp = ESPCheck.Checked;
         }
     }
 }
