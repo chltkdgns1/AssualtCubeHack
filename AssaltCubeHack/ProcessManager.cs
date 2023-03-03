@@ -24,6 +24,16 @@ namespace AssaltCubeHack
             }
         }
 
+        public List<PlayerDiffData> PlayerDiffData
+        {
+            get
+            {
+                if (playerController == null)
+                    return null;
+                return playerController.GetDiffPlayerDataList();
+            }
+        }
+
         public PlayerData MyPlayerData
         {
             get { return playerController.MyPlayerData; }

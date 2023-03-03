@@ -44,7 +44,6 @@ namespace AssaltCubeHack
             this.HealHackCheck = new System.Windows.Forms.CheckBox();
             this.BulletHackCheck = new System.Windows.Forms.CheckBox();
             this.AmmorHackCheck = new System.Windows.Forms.CheckBox();
-            this.AimHackCheck = new System.Windows.Forms.CheckBox();
             this.ESPCheck = new System.Windows.Forms.CheckBox();
             this.PlayerDataGroup.SuspendLayout();
             this.SuspendLayout();
@@ -155,6 +154,7 @@ namespace AssaltCubeHack
             // timer1
             // 
             this.timer1.Enabled = true;
+            this.timer1.Interval = 10;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // HealHackCheck
@@ -171,7 +171,7 @@ namespace AssaltCubeHack
             // BulletHackCheck
             // 
             this.BulletHackCheck.AutoSize = true;
-            this.BulletHackCheck.Location = new System.Drawing.Point(53, 210);
+            this.BulletHackCheck.Location = new System.Drawing.Point(53, 211);
             this.BulletHackCheck.Name = "BulletHackCheck";
             this.BulletHackCheck.Size = new System.Drawing.Size(94, 21);
             this.BulletHackCheck.TabIndex = 6;
@@ -182,7 +182,7 @@ namespace AssaltCubeHack
             // AmmorHackCheck
             // 
             this.AmmorHackCheck.AutoSize = true;
-            this.AmmorHackCheck.Location = new System.Drawing.Point(53, 244);
+            this.AmmorHackCheck.Location = new System.Drawing.Point(53, 246);
             this.AmmorHackCheck.Name = "AmmorHackCheck";
             this.AmmorHackCheck.Size = new System.Drawing.Size(105, 21);
             this.AmmorHackCheck.TabIndex = 6;
@@ -190,21 +190,10 @@ namespace AssaltCubeHack
             this.AmmorHackCheck.UseVisualStyleBackColor = true;
             this.AmmorHackCheck.CheckedChanged += new System.EventHandler(this.AmmorHackCheck_CheckedChanged);
             // 
-            // AimHackCheck
-            // 
-            this.AimHackCheck.AutoSize = true;
-            this.AimHackCheck.Location = new System.Drawing.Point(53, 278);
-            this.AimHackCheck.Name = "AimHackCheck";
-            this.AimHackCheck.Size = new System.Drawing.Size(84, 21);
-            this.AimHackCheck.TabIndex = 6;
-            this.AimHackCheck.Text = "Aim Hack";
-            this.AimHackCheck.UseVisualStyleBackColor = true;
-            this.AimHackCheck.CheckedChanged += new System.EventHandler(this.AimHackCheck_CheckedChanged);
-            // 
             // ESPCheck
             // 
             this.ESPCheck.AutoSize = true;
-            this.ESPCheck.Location = new System.Drawing.Point(53, 312);
+            this.ESPCheck.Location = new System.Drawing.Point(53, 281);
             this.ESPCheck.Name = "ESPCheck";
             this.ESPCheck.Size = new System.Drawing.Size(48, 21);
             this.ESPCheck.TabIndex = 6;
@@ -218,7 +207,6 @@ namespace AssaltCubeHack
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(659, 348);
             this.Controls.Add(this.ESPCheck);
-            this.Controls.Add(this.AimHackCheck);
             this.Controls.Add(this.AmmorHackCheck);
             this.Controls.Add(this.BulletHackCheck);
             this.Controls.Add(this.HealHackCheck);
@@ -254,7 +242,6 @@ namespace AssaltCubeHack
         private System.Windows.Forms.CheckBox HealHackCheck;
         private System.Windows.Forms.CheckBox BulletHackCheck;
         private System.Windows.Forms.CheckBox AmmorHackCheck;
-        private System.Windows.Forms.CheckBox AimHackCheck;
         private System.Windows.Forms.CheckBox ESPCheck;
     }
 }

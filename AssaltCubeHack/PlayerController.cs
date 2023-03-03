@@ -7,6 +7,25 @@ using System.Threading.Tasks;
 
 namespace AssaltCubeHack
 {
+    public class PlayerDiffData
+    {
+        public float xyAngle;
+        public float zAngle;
+        public float distance;
+
+        public PlayerDiffData(float xyAngle, float zAngle, float distance)
+        {
+            SetData(xyAngle, zAngle, distance);
+        }
+
+        public void SetData(float xyAngle, float zAngle, float distance)
+        {
+            this.xyAngle = xyAngle;
+            this.zAngle = zAngle;
+            this.distance = distance;
+        }
+    }
+
     class PlayerController
     {
         PlayerData myPlayerData = null;
@@ -26,6 +45,28 @@ namespace AssaltCubeHack
             get { return myPlayerData; }
         }
 
+        public List<PlayerData> InGamePlayerList
+        {
+            get {
+
+                if (playerDataList == null || roomData == null)
+                    return null;
+
+                List<PlayerData> list = new List<PlayerData>();
+
+                // limitDistance 거리 안에 있는 요소만 뽑음
+                int cnt = Math.Min(playerDataList.Count, roomData.playerCnt) - 1;
+
+                for (int i = 0; i < cnt; i++)
+                {
+                    if (0 > playerDataList[i].health || playerDataList[i].health > 100)
+                        continue;
+                    list.Add(playerDataList[i]);
+                }
+                return list;
+            }
+        }
+
         public void init()
         {
             myPlayerData = null;
@@ -43,7 +84,15 @@ namespace AssaltCubeHack
             for (int i = 0; i < playerCnt; i++)
             {
                 int baseAddr = memoryReader.ReadMultiLevelPointer(basePtr, 4, offsetArray);
-                playerDataList.Add(new PlayerData(memoryReader, baseAddr));
+
+                if (playerDataList.Count <= i)
+                {
+                    playerDataList.Add(new PlayerData(memoryReader, baseAddr));
+                }
+                else
+                {
+                    playerDataList[i].SetPlayerData();
+                }
                 offsetArray[0] += 4;
             }
         }
@@ -227,6 +276,30 @@ namespace AssaltCubeHack
             float xyAngle = GetXYAngle(myPlayerData, targetEnemy);
             float zAngle = GetZAngle(myPlayerData, targetEnemy);
             myPlayerData.SetAim(xyAngle, zAngle);
+        }
+
+        public List<PlayerDiffData> GetDiffPlayerDataList()
+        {
+            List<PlayerData> inGamePlayer = InGamePlayerList;
+
+            if (inGamePlayer == null)
+                return null;
+
+            int cnt = inGamePlayer.Count;
+
+            List<PlayerDiffData> playerDiffList = new List<PlayerDiffData>();
+            for (int i = 0; i < cnt; i++)
+            {
+                float xyAngle = GetXYAngle(myPlayerData, inGamePlayer[i]) - MyPlayerData.xyAng ;
+                float zAngle = GetZAngle(myPlayerData, inGamePlayer[i]) - MyPlayerData.zAng;
+                float distance = GetDistance3D(myPlayerData, inGamePlayer[i]);
+                if (distance <= limitDistance)
+                {
+                    playerDiffList.Add(new PlayerDiffData(xyAngle, zAngle, distance));
+                }
+            }
+
+            return playerDiffList;
         }
     }
 }

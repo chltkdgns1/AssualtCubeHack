@@ -18,9 +18,9 @@ namespace AssaltCubeHack
         bool isCheckHealthHack = false;
         bool isCheckBulltetHack = false;
         bool isCheckAmmorHack = false;
-
-        bool isAimHack = false;
         bool isEsp = false;
+
+        OverLayForm overLayForm = null;
 
         public MainForm()
         {
@@ -119,22 +119,51 @@ namespace AssaltCubeHack
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            // attact 실패 상태라면
+            // 프로세스 attact 실패 상태라면
             if(ProcessManager.Instance.IsGetAttach == false)
             {
                 return;
             }
 
+            // 내 플레이어 데이터가 없는 상태
             if(ProcessManager.Instance.MyPlayerData == null)
             {
                 return;
             }
 
+            UpdateMyData();
+
+            if (isCheckHealthHack)
+            {
+                HackHealth();
+            }
+
+            if (isCheckBulltetHack)
+            {
+                HackBullet();
+            }
+
+            if (isCheckAmmorHack)
+            {
+                HackAmmor();
+            }
+
+            if (isEsp)
+            {
+                EspHack();
+            }
+
+            // 키가 눌렸을 때
+            RMouseBtnDown(); 
+        }
+
+        void UpdateMyData()
+        {
             ProcessManager.Instance.UpDate();
 
             var pData = ProcessManager.Instance.MyPlayerData;
 
-            if(pData == null)
+            if (pData == null)
             {
                 return;
             }
@@ -144,24 +173,29 @@ namespace AssaltCubeHack
             AmmorLabel.Text = "Ammor : " + pData.ammor.ToString();
             PosLabel.Text = "Position : " + pData.xpos.ToString() + " , " + pData.ypos.ToString() + " , " + pData.zpos.ToString();
             AngleLabel.Text = "Angle : " + pData.xyAng.ToString() + " , " + pData.zAng.ToString();
+        }
 
-            if (isCheckHealthHack)
-            {
-                ProcessManager.Instance.HackHealth();
-            }
+        void HackHealth()
+        {
+            ProcessManager.Instance.HackHealth();
+        }
 
-            if (isCheckBulltetHack)
-            {
-                ProcessManager.Instance.HackBullet();
-            }
+        void HackBullet()
+        {
+            ProcessManager.Instance.HackBullet();
+        }
 
-            if (isCheckAmmorHack)
-            {
-                ProcessManager.Instance.HackAmmor();
-            }
+        void HackAmmor()
+        {
+            ProcessManager.Instance.HackAmmor();
+        }
 
-            // 키가 눌렸을 때
-            RMouseBtnDown(); 
+        void EspHack()
+        {
+            ProcessManager.Instance.GetEnemyState();
+            // 플레이어들의 위치 정보 전달.
+            InitOverlayForm();
+            overLayForm.SetEventPrintEnemy(ProcessManager.Instance.PlayerDiffData);
         }
 
         void RMouseBtnDown()
@@ -190,14 +224,28 @@ namespace AssaltCubeHack
             isCheckBulltetHack = BulletHackCheck.Checked;
         }
 
-        private void AimHackCheck_CheckedChanged(object sender, EventArgs e)
-        {
-            isAimHack = AimHackCheck.Checked;
-        }
-
         private void ESPCheck_CheckedChanged(object sender, EventArgs e)
         {
+            InitOverlayForm();
+
             isEsp = ESPCheck.Checked;
+
+            if (ESPCheck.Checked)
+            {
+                overLayForm.Show();
+            }
+            else
+            {
+                overLayForm.Hide();
+            }
+        }
+
+        void InitOverlayForm()
+        {
+            if (overLayForm == null || overLayForm.IsDisposed)
+            {
+                overLayForm = new OverLayForm();
+            }
         }
     }
 }
